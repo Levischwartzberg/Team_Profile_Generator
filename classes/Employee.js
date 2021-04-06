@@ -7,10 +7,10 @@ class Employee {
         if (typeof name !== "string" || !name.trim().length) {
             throw new Error("Expected parameter 'name' to be a non-empty string");
           }
-        if ( id === "") {
+        if ( id === "" || id === undefined) {
             throw new Error("Expected parameter 'id' to be a non-empty string or number");
           }
-        if (typeof email !== "string" || !name.trim().length) {
+        if (typeof email !== "string" || !email.trim().length) {
             throw new Error("Expected parameter 'email' to be a non-empty string");
           } 
     }
