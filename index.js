@@ -1,10 +1,17 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const { JSDOM } = require( "jsdom" );
+const { window } = new JSDOM( "" );
+const $ = require( "jquery" )( window );
+
 const Intern = require("./classes/Intern");
 const Manager = require("./classes/Manager");
 const Engineer = require("./classes/Engineer");
 
-const employeeArray = [];
+const managerArray = [];
+const engineerArray = [];
+const internArray = [];
+
 
 const questions1 = [
     {
@@ -103,7 +110,7 @@ inquirer
     .then( (response) =>
         {
             const teamManager = new Manager(response.managerName, response.managerID, response.managerEmail, response.managerOffice);
-            employeeArray.push(teamManager);
+            managerArray.push(teamManager);
             if (response.continue === "Engineer") {
                 engineerQuestions();
             }
@@ -111,15 +118,10 @@ inquirer
                 internQuestions();
             }
             else if (response.continue === "I am finished") {
-                constructHTML(employeeArray);
+                generateHTML(managerArray, engineerArray, internArray);
             }
     }
     )
-
-
-function constructHTML(employeeArray) {
-
-}
 
 function engineerQuestions() {
     inquirer
@@ -127,7 +129,7 @@ function engineerQuestions() {
         .then( (response) => 
         {
             let teamEngineer = new Engineer(response.engineerName, response.engineerID, response.engineerEmail, response.enigneerGithub);
-            employeeArray.push(teamEngineer);
+            engineerArray.push(teamEngineer);
             if (response.continue === "Engineer") {
                 engineerQuestions();
             }
@@ -135,8 +137,7 @@ function engineerQuestions() {
                 internQuestions();
             }
             else if (response.continue === "I am finished") {
-                constructHTML(employeeArray);
-                console.log(employeeArray);
+                generateHTML(managerArray, engineerArray, internArray)
             }
         }
         )
@@ -148,7 +149,7 @@ function internQuestions() {
         .then( (response) => 
         {
             let teamIntern = new Intern(response.internName, response.internID, response.internEmail, response.internSchool);
-            employeeArray.push(teamIntern);
+            internArray.push(teamIntern);
             if (response.continue === "Engineer") {
                 engineerQuestions();
             }
@@ -156,9 +157,120 @@ function internQuestions() {
                 internQuestions();
             }
             else if (response.continue === "I am finished") {
-                constructHTML(employeeArray);
-                console.log(employeeArray);
+                generateHTML(managerArray, engineerArray, internArray);
             }
         }
         )
+}
+
+function generateHTML(managerArray, engineerArray, internArray) {
+    let topHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="stylesheet" href="assets/styles.css" />
+        <title>My Team</title>
+      </head>
+    
+      <body>
+        <div class="employees row">
+      `
+    
+
+    let manager = `
+            <div class="employee-card col-12 col-md-4">
+                <p>
+                    Name: ${managerArray[0].name}
+                </p>
+                <p>
+                    <i class="fas fa-mug-hot"></i> Manager 
+                </p>
+                <p>
+                    ID: ${managerArray[0].id}
+                </p>
+                <p>
+                    Email: ${managerArray[0].email}
+                </p>
+                <p>
+                    Office Number: ${managerArray[0].officeNumber}
+                </p>
+            </div>
+    `
+    topHTML += manager;
+
+    for (i=0; i<engineerArray.length; i++) {
+        let engineer = `
+            <div class="employee-card col-12 col-md-4">
+                <p>
+                    Name: ${engineerArray[i].name}
+                </p>
+                <p>
+                    <i class="fas fa-glasses"></i> Engineer
+                </p>
+                <p>
+                    ID: ${engineerArray[i].id}
+                </p>
+                <p>
+                    Email: ${engineerArray[i].email}
+                </p>
+                <p>
+                    Github: ${engineerArray[i].github}
+                </p>
+            </div>
+        `
+        topHTML += engineer;
+    }
+    for (i=0; i<internArray.length; i++) {
+        let intern = `
+            <div class="employee-card col-12 col-md-4">
+                <p>
+                    Name: ${internArray[i].name}
+                </p>
+                <p>
+                    <i class="fas fa-user-graduate"></i> Intern
+                </p>
+                <p>
+                    ID: ${internArray[i].id}
+                </p>
+                <p>
+                    Email: ${internArray[i].email}
+                </p>
+                <p>
+                    School: ${internArray[i].school}
+                </p>
+            </div>
+        `
+        topHTML += intern; 
+    }
+    const bottomHTML = `
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="index.js"></script>
+    </body>
+    </html>
+    `
+    topHTML += bottomHTML;
+    fs.writeFile('index.html', topHTML, (err) =>
+        err ? console.error(err) : console.log('Success!')
+        );
 }
