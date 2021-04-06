@@ -3,6 +3,16 @@ class Employee {
         this.name = name;
         this.id = id;
         this.email = email;
+
+        if (typeof name !== "string" || !name.trim().length) {
+            throw new Error("Expected parameter 'name' to be a non-empty string");
+          }
+        if ( id === "") {
+            throw new Error("Expected parameter 'id' to be a non-empty string or number");
+          }
+        if (typeof email !== "string" || !name.trim().length) {
+            throw new Error("Expected parameter 'email' to be a non-empty string");
+          } 
     }
 
     getName() {
@@ -12,7 +22,7 @@ class Employee {
         return this.id;
     }
     getEmail() {
-        return this.id;
+        return this.email;
     }
     getRole() {
         return "Employee";
