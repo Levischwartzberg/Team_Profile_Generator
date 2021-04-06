@@ -1,5 +1,37 @@
+header {
+    background-color: #721616;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    color: white;
+    text-align: center;
+}
+
+.employees {
+    margin: 20px;
+}
+
 .employee-card {
+    padding: 10px;
+}
+
+.card-header {
+    background-image: linear-gradient(#1436a8, #4958ad);
+    color: white;
+    padding: 25px;
+}
+
+.card-info {
+    background-color: #868282;
+    padding: 25px;
+}
+
+p {
     background-color: white;
-    border: black 1px solid;
-    
+    color: black;
+    margin: 0px 10px 0px 10px;
+    padding: 5px;
+    border: 1px solid #868282
 }
