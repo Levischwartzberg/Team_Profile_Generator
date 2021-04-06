@@ -190,12 +190,16 @@ function generateHTML(managerArray, engineerArray, internArray) {
       </head>
     
       <body>
+        <header>
+            <h1>My Team</h1>
+        </header>
+
         <div class="employees row">
       `
     
 
     let manager = `
-            <div class="employee-card col-12 col-md-4">
+            <div class="employee-card col-12 col-md-6 col-lg-4">
                 <div class="card-header">
                     <h4>
                         Name: ${managerArray[0].name}
@@ -221,7 +225,7 @@ function generateHTML(managerArray, engineerArray, internArray) {
 
     for (i=0; i<engineerArray.length; i++) {
         let engineer = `
-            <div class="employee-card col-12 col-md-4">
+            <div class="employee-card col-12 col-md-6 col-lg-4">
                 <div class="card-header">
                     <h4>
                         Name: ${engineerArray[i].name}
@@ -247,7 +251,7 @@ function generateHTML(managerArray, engineerArray, internArray) {
     }
     for (i=0; i<internArray.length; i++) {
         let intern = `
-            <div class="employee-card col-12 col-md-4">
+            <div class="employee-card col-12 col-md-6 col-lg-4">
                 <div class="card-header">
                     <h4>
                         Name: ${internArray[i].name}
