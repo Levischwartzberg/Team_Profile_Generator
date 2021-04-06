@@ -213,7 +213,7 @@ function generateHTML(managerArray, engineerArray, internArray) {
                         ID: ${managerArray[0].id}
                     </p>
                     <p>
-                        Email: ${managerArray[0].email}
+                        Email: <a href="mailto:${managerArray[0].email}"> ${managerArray[0].email} </a>
                     </p>
                     <p>
                         Office Number: ${managerArray[0].officeNumber}
@@ -239,10 +239,10 @@ function generateHTML(managerArray, engineerArray, internArray) {
                         ID: ${engineerArray[i].id}
                     </p>
                     <p>
-                        Email: ${engineerArray[i].email}
+                        Email: <a href="mailto:${engineerArray[i].email}"> ${engineerArray[i].email} </a>
                     </p>
                     <p>
-                        Github: ${engineerArray[i].github}
+                        Github: <a href="https://github.com/${engineerArray[i].github}"> ${engineerArray[i].github} </a>
                     </p>
                 </div>
             </div>
@@ -265,7 +265,7 @@ function generateHTML(managerArray, engineerArray, internArray) {
                         ID: ${internArray[i].id}
                     </p>
                     <p>
-                        Email: ${internArray[i].email}
+                        Email: <a href="mailto:${internArray[i].email}"> ${internArray[i].email} </a>
                     </p>
                     <p>
                         School: ${internArray[i].school}
